@@ -13,11 +13,13 @@ class Solution {
         Set<Integer> set = new HashSet<>();
         for (int num : nums) 
         {
+            if( set.contains(num))
+            return true;
             set.add(num);
         }
-        if( set.size() == nums.length)
+        // if( set.size() == nums.length)
         return false;
-        else
-        return true;
+        // else
+        // return true;
     }
 }
