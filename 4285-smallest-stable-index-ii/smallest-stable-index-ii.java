@@ -1,20 +1,30 @@
 class Solution {
     public int firstStableIndex(int[] nums, int k) {
         int n = nums.length;
-        if( n == 0)
-        return -1;
-        int suffix []  = new int [n];
-        int [] arr = nums ;
-        suffix [n-1] = arr[n-1];
-        for(int i = n-2; i >= 0; i--)
-        suffix[i] = Math.min(arr[i], suffix[i+1]);
-        int prefixMax = Integer.MIN_VALUE;
-        for(int i = 0; i < nums.length; i++){
-            prefixMax = Math.max( prefixMax , arr[i] );
-            long instability = (long) prefixMax - suffix[i];
-            if(instability <= k)
-            return i;
+        int [] prefixmax = new int[ n];
+        int [] suffixmin = new int [n];
+        
+        prefixmax[0] = nums[0];
+
+        for( int i = 1;  i < n;i++){
+            prefixmax[i] = Math.max(prefixmax[i-1], nums[i]);
         }
+
+        suffixmin[n - 1] = nums[n-1];
+
+        for (int i = n - 2; i >= 0; i--) {
+            suffixmin[i] = Math.min(suffixmin[i + 1], nums[i]);
+        }
+
+        for (int i = 0; i < n; i++) {
+            int instability = prefixmax[i] - suffixmin[i];
+
+            if (instability <= k) {
+                return i;
+            }
+        }
+
         return -1;
+
     }
 }
